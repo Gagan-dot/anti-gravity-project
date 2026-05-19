@@ -121,31 +121,37 @@ export default function DashboardPage() {
         }}
       >
         {/* Animated floating icons */}
-        {floatingIcons.map((Icon, i) => (
-          <motion.div
-            key={i}
-            className="absolute"
-            style={{
-              left: `${10 + i * 15}%`,
-              top: `${15 + (i % 3) * 25}%`,
-              color: i % 2 === 0 ? 'rgba(0, 229, 255, 0.12)' : 'rgba(240, 0, 255, 0.10)',
-            }}
-            animate={{
-              y: [0, -18, 0],
-              x: [0, i % 2 === 0 ? 8 : -8, 0],
-              rotate: [0, 20, -20, 0],
-              opacity: [0.08, 0.18, 0.08],
-            }}
-            transition={{
-              duration: 4 + i * 0.8,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.5,
-            }}
-          >
-            <Icon size={30 + i * 5} strokeWidth={1.5} />
-          </motion.div>
-        ))}
+        {floatingIcons.map((Icon, i) => {
+          const colors = ['#00e5ff', '#f000ff', '#00e5ff', '#f000ff', '#00e5ff', '#f000ff']
+          return (
+            <motion.div
+              key={i}
+              className="absolute pointer-events-none"
+              style={{
+                left: `${8 + i * 16}%`,
+                top: `${10 + (i % 3) * 28}%`,
+              }}
+              animate={{
+                y: [0, -15, 0],
+                x: [0, i % 2 === 0 ? 10 : -10, 0],
+                rotate: [0, 12, -12, 0],
+              }}
+              transition={{
+                duration: 5 + i,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 0.3,
+              }}
+            >
+              <Icon 
+                size={36 + i * 6} 
+                strokeWidth={1.2} 
+                color={colors[i]}
+                style={{ opacity: 0.15 }}
+              />
+            </motion.div>
+          )
+        })}
 
         {/* Glowing orbs inside banner */}
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-20"
