@@ -3,7 +3,7 @@ import { Outlet, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
-import AIFloatingButton from '../ai/AIFloatingButton'
+
 import { useApp } from '../../context/AppContext'
 import { useAuth } from '../../context/AuthContext'
 
@@ -40,7 +40,7 @@ export default function DashboardLayout() {
         </main>
       </motion.div>
 
-      <AIFloatingButton />
+
     </div>
   )
 }

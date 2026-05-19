@@ -214,7 +214,7 @@ export function AppProvider({ children }) {
     activities,
     sidebarOpen, setSidebarOpen, toggleSidebar,
     mobileSidebarOpen, setMobileSidebarOpen, toggleMobileSidebar,
-    theme, toggleTheme,
+    theme, toggleTheme, setTheme,
     searchQuery, setSearchQuery,
   }
 

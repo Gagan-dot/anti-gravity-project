@@ -1,36 +1,32 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useApp } from '../../context/AppContext'
 import {
   Building, Bell, CreditCard, Users, Palette,
   Save, Upload, Globe, Mail, Phone, MapPin,
-  Moon, Sun, Monitor, Shield, Key, Smartphone
+  Moon, Sun, Monitor, Shield, Key, Smartphone, Bot
 } from 'lucide-react'
 import FileUpload from '../../components/ui/FileUpload'
+import Modal from '../../components/ui/Modal'
 
 const tabs = [
   { id: 'business', label: 'Business Profile', icon: Building },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'subscription', label: 'Subscription', icon: CreditCard },
-  { id: 'team', label: 'Team Members', icon: Users },
   { id: 'theme', label: 'Appearance', icon: Palette },
 ]
 
-const teamMembers = [
-  { name: 'Gagan', email: 'gagan@clientflow.ai', role: 'Admin', avatar: 'G', status: 'Active' },
-  { name: 'Priya M.', email: 'priya@clientflow.ai', role: 'Sales Manager', avatar: 'PM', status: 'Active' },
-  { name: 'Rahul K.', email: 'rahul@clientflow.ai', role: 'Staff', avatar: 'RK', status: 'Active' },
-  { name: 'Anjali S.', email: 'anjali@clientflow.ai', role: 'Receptionist', avatar: 'AS', status: 'Invited' },
-]
-
 export default function SettingsPage() {
+  const { theme, setTheme, sidebarOpen, setSidebarOpen } = useApp()
   const [activeTab, setActiveTab] = useState('business')
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false)
   const [businessData, setBusinessData] = useState({
-    name: 'FitLife Gym & Wellness',
-    email: 'contact@fitlifegym.com',
-    phone: '+91 98765 43210',
-    address: '123 MG Road, Mumbai, India',
-    website: 'www.fitlifegym.com',
-    description: 'Premium fitness and wellness center offering state-of-the-art equipment, group classes, personal training, and holistic wellness programs.',
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    website: '',
+    description: '',
     logoUrl: null,
   })
   const [notifications, setNotifications] = useState({
@@ -173,6 +169,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="flex gap-3">
                     <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                      onClick={() => setIsUpgradeModalOpen(true)}
                       className="px-4 py-2 gradient-primary rounded-xl text-sm font-medium text-white">Upgrade Plan</motion.button>
                     <button className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-300 hover:bg-white/10">Manage Billing</button>
                   </div>
@@ -203,51 +200,21 @@ export default function SettingsPage() {
               </div>
             )}
 
-            {/* Team */}
-            {activeTab === 'team' && (
-              <div className="glass rounded-2xl p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-white">Team Members</h2>
-                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                    className="px-4 py-2 gradient-primary rounded-xl text-sm font-medium text-white flex items-center gap-2">
-                    <Users size={14} /> Invite Member
-                  </motion.button>
-                </div>
-                <div className="space-y-3">
-                  {teamMembers.map(member => (
-                    <div key={member.email} className="flex items-center justify-between py-3 px-4 rounded-xl hover:bg-white/3 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center text-sm font-bold text-white">{member.avatar}</div>
-                        <div>
-                          <p className="text-sm font-medium text-white">{member.name}</p>
-                          <p className="text-xs text-slate-400">{member.email}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className={`text-xs px-2.5 py-1 rounded-lg font-medium ${member.status === 'Active' ? 'badge-success' : 'badge-warning'}`}>{member.status}</span>
-                        <span className="text-xs text-slate-400 bg-white/5 px-3 py-1 rounded-lg">{member.role}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Theme */}
             {activeTab === 'theme' && (
               <div className="glass rounded-2xl p-6 space-y-6">
                 <h2 className="text-lg font-semibold text-white">Appearance</h2>
                 <div>
                   <p className="text-sm font-medium text-slate-300 mb-3">Theme Mode</p>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {[
-                      { icon: Moon, label: 'Dark', active: true },
-                      { icon: Sun, label: 'Light', active: false },
-                      { icon: Monitor, label: 'System', active: false },
-                    ].map(({ icon: Icon, label, active }) => (
+                      { icon: Moon, label: 'Dark', value: 'dark' },
+                      { icon: Sun, label: 'Light', value: 'light' },
+                    ].map(({ icon: Icon, label, value }) => (
                       <button key={label}
+                        onClick={() => setTheme(value)}
                         className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all ${
-                          active ? 'border-primary-500/50 bg-primary-500/10 text-white' : 'border-white/10 bg-white/3 text-slate-400 hover:bg-white/5'
+                          theme === value ? 'border-primary-500/50 bg-primary-500/10 text-white' : 'border-white/10 bg-white/3 text-slate-400 hover:bg-white/5'
                         }`}>
                         <Icon size={20} />
                         <span className="text-xs font-medium">{label}</span>
@@ -257,24 +224,17 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <p className="text-sm font-medium text-slate-300 mb-3">Accent Color</p>
-                  <div className="flex gap-3">
-                    {['#7c3aed', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'].map(color => (
-                      <button key={color}
-                        className={`w-10 h-10 rounded-xl border-2 transition-all hover:scale-110 ${color === '#7c3aed' ? 'border-white ring-2 ring-white/20' : 'border-transparent'}`}
-                        style={{ backgroundColor: color }} />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
                   <p className="text-sm font-medium text-slate-300 mb-3">Sidebar Style</p>
                   <div className="grid grid-cols-2 gap-3">
-                    {['Expanded', 'Compact'].map(style => (
-                      <button key={style}
+                    {[
+                      { label: 'Expanded', value: true },
+                      { label: 'Compact', value: false },
+                    ].map(({ label, value }) => (
+                      <button key={label}
+                        onClick={() => setSidebarOpen(value)}
                         className={`p-4 rounded-xl border text-sm font-medium transition-all ${
-                          style === 'Expanded' ? 'border-primary-500/50 bg-primary-500/10 text-white' : 'border-white/10 bg-white/3 text-slate-400 hover:bg-white/5'
-                        }`}>{style}</button>
+                          sidebarOpen === value ? 'border-primary-500/50 bg-primary-500/10 text-white' : 'border-white/10 bg-white/3 text-slate-400 hover:bg-white/5'
+                        }`}>{label}</button>
                     ))}
                   </div>
                 </div>
@@ -283,6 +243,49 @@ export default function SettingsPage() {
           </motion.div>
         </div>
       </div>
+
+      <Modal isOpen={isUpgradeModalOpen} onClose={() => setIsUpgradeModalOpen(false)} title="Upgrade to Enterprise" size="md">
+        <div className="space-y-6">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-white mb-2">Enterprise Plan</h3>
+            <p className="text-slate-400">Unlock all premium features for your business.</p>
+          </div>
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+               <Shield className="text-primary-400 shrink-0 mt-0.5" />
+               <div>
+                 <p className="font-medium text-white">Advanced Security</p>
+                 <p className="text-sm text-slate-400">Enterprise-grade security and compliance.</p>
+               </div>
+            </div>
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+               <Users className="text-primary-400 shrink-0 mt-0.5" />
+               <div>
+                 <p className="font-medium text-white">Unlimited Team Members</p>
+                 <p className="text-sm text-slate-400">Scale your team without limits.</p>
+               </div>
+            </div>
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-start gap-3">
+               <Bot className="text-primary-400 shrink-0 mt-0.5" />
+               <div>
+                 <p className="font-medium text-white">Advanced AI Features</p>
+                 <p className="text-sm text-slate-400">Priority AI processing and custom models.</p>
+               </div>
+            </div>
+          </div>
+          <motion.button 
+            whileHover={{ scale: 1.02 }} 
+            whileTap={{ scale: 0.98 }}
+            onClick={() => {
+              alert("Processing upgrade...")
+              setIsUpgradeModalOpen(false)
+            }}
+            className="w-full py-3 gradient-primary rounded-xl font-medium text-white shadow-lg shadow-primary-500/25"
+          >
+            Upgrade Now - ₹9,999/mo
+          </motion.button>
+        </div>
+      </Modal>
     </div>
   )
 }

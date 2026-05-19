@@ -2,7 +2,8 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import {
   Users, DollarSign, CreditCard, AlertCircle, UserPlus,
-  TrendingUp, Calendar, Clock, ArrowUpRight
+  TrendingUp, Calendar, Clock, ArrowUpRight,
+  Activity, Zap, MessageSquare, PlusCircle, Dumbbell
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -87,6 +88,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard icon={Users} title="Total Customers" value={customers.length} change="+12%" delay={0.05} gradient="gradient-primary" />
@@ -103,7 +105,8 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="lg:col-span-2 glass rounded-2xl p-5"
+          whileHover={{ y: -4 }}
+          className="lg:col-span-2 glass rounded-2xl p-5 border border-white/5 hover:border-white/10 transition-colors shadow-lg hover:shadow-primary-500/10"
         >
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -125,20 +128,20 @@ export default function DashboardPage() {
             <AreaChart data={revenueData}>
               <defs>
                 <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#00e5ff" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#00e5ff" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="customerGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#38bdf8" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#f000ff" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#f000ff" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
               <XAxis dataKey="month" stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `₹${v/1000}K`} />
               <Tooltip content={<CustomTooltip />} />
-              <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#7c3aed" strokeWidth={2.5} fill="url(#revenueGradient)" />
-              <Area type="monotone" dataKey="customers" name="Customers" stroke="#38bdf8" strokeWidth={2} fill="url(#customerGradient)" />
+              <Area type="monotone" dataKey="revenue" name="Revenue" stroke="#00e5ff" strokeWidth={2.5} fill="url(#revenueGradient)" />
+              <Area type="monotone" dataKey="customers" name="Customers" stroke="#f000ff" strokeWidth={2} fill="url(#customerGradient)" />
             </AreaChart>
           </ResponsiveContainer>
         </motion.div>
@@ -148,7 +151,8 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="glass rounded-2xl p-5"
+          whileHover={{ y: -4 }}
+          className="glass rounded-2xl p-5 border border-white/5 hover:border-white/10 transition-colors shadow-lg hover:shadow-amber-500/10"
         >
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -198,87 +202,17 @@ export default function DashboardPage() {
         </motion.div>
       </div>
 
-      {/* Lead Conversion & Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Lead Conversion Chart */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="glass rounded-2xl p-5"
-        >
-          <h3 className="font-semibold text-white mb-1">Lead Conversion</h3>
-          <p className="text-xs text-slate-400 mb-4">New leads vs converted vs lost</p>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={leadConversionData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="month" stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="newLeads" name="New Leads" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="converted" name="Converted" fill="#10b981" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="lost" name="Lost" fill="#ef4444" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </motion.div>
 
-        {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45 }}
-          className="glass rounded-2xl p-5"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="font-semibold text-white">Recent Activity</h3>
-              <p className="text-xs text-slate-400 mt-1">Latest actions and updates</p>
-            </div>
-            <button className="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 transition-colors">
-              View all <ArrowUpRight size={12} />
-            </button>
-          </div>
-          <div className="space-y-1">
-            {activities.length > 0 ? (
-              activities.slice(0, 6).map((activity, i) => (
-                <motion.div
-                  key={activity.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + i * 0.05 }}
-                  className="flex items-start gap-3 py-2.5 px-3 rounded-xl hover:bg-white/3 transition-colors group"
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                    activity.type === 'customer' ? 'bg-primary-500/10 text-primary-400' :
-                    activity.type === 'payment' ? 'bg-emerald-500/10 text-emerald-400' :
-                    activity.type === 'lead' ? 'bg-blue-500/10 text-blue-400' :
-                    activity.type === 'reminder' ? 'bg-amber-500/10 text-amber-400' :
-                    activity.type === 'invoice' ? 'bg-purple-500/10 text-purple-400' :
-                    'bg-cyan-500/10 text-cyan-400'
-                  }`}>
-                    <Clock size={14} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-slate-300 truncate">{activity.message}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{activity.time}</p>
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              <div className="py-8 text-center text-slate-500 text-sm">No recent activity</div>
-            )}
-          </div>
-        </motion.div>
-      </div>
 
-      {/* Upcoming Renewals & Notifications */}
+      {/* Upcoming Renewals */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Upcoming Renewals */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="glass rounded-2xl p-5"
+          whileHover={{ y: -4 }}
+          className="glass rounded-2xl p-5 border border-white/5 hover:border-white/10 transition-colors shadow-lg hover:shadow-purple-500/10"
         >
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -326,48 +260,7 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* Quick Notifications */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55 }}
-          className="glass rounded-2xl p-5"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="font-semibold text-white">Notifications</h3>
-              <p className="text-xs text-slate-400 mt-1">Important alerts and updates</p>
-            </div>
-            <TrendingUp size={16} className="text-slate-500" />
-          </div>
-          <div className="space-y-2">
-            {notifications.length > 0 ? (
-              notifications.map((notif, i) => (
-                <motion.div
-                  key={notif.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + i * 0.05 }}
-                  className={`flex items-start gap-3 py-2.5 px-3 rounded-xl transition-colors ${!notif.read ? 'bg-primary-500/5' : 'hover:bg-white/3'}`}
-                >
-                  <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                    notif.type === 'danger' ? 'bg-red-400' :
-                    notif.type === 'warning' ? 'bg-amber-400' :
-                    notif.type === 'info' ? 'bg-blue-400' :
-                    'bg-emerald-400'
-                  }`} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-200">{notif.title}</p>
-                    <p className="text-xs text-slate-400 mt-0.5 truncate">{notif.message}</p>
-                    <p className="text-[10px] text-slate-600 mt-1">{notif.time}</p>
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              <div className="py-8 text-center text-slate-500 text-sm">No new notifications</div>
-            )}
-          </div>
-        </motion.div>
+
       </div>
     </div>
   )

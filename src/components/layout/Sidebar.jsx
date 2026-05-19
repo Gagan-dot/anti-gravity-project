@@ -11,12 +11,7 @@ import {
 const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/customers', icon: Users, label: 'Customers' },
-  { path: '/leads', icon: Target, label: 'Leads' },
-  { path: '/ai-assistant', icon: Bot, label: 'AI Assistant' },
-  { path: '/invoices', icon: FileText, label: 'Invoices' },
   { path: '/payments', icon: CreditCard, label: 'Payments' },
-  { path: '/documents', icon: FolderOpen, label: 'Documents' },
-  { path: '/whatsapp', icon: MessageCircle, label: 'WhatsApp' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ]
 

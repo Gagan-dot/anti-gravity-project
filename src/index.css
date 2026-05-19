@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #f0e7ff;
-  --color-primary-100: #d4bfff;
-  --color-primary-200: #b794ff;
-  --color-primary-300: #9b6dff;
-  --color-primary-400: #854dff;
-  --color-primary-500: #7c3aed;
-  --color-primary-600: #6d28d9;
-  --color-primary-700: #5b21b6;
-  --color-primary-800: #4c1d95;
-  --color-primary-900: #3b0f7e;
+  --color-primary-50: #e0fcff;
+  --color-primary-100: #b3f7ff;
+  --color-primary-200: #80f2ff;
+  --color-primary-300: #4decff;
+  --color-primary-400: #26e8ff;
+  --color-primary-500: #00e5ff;
+  --color-primary-600: #00b7cc;
+  --color-primary-700: #008999;
+  --color-primary-800: #005c66;
+  --color-primary-900: #002e33;
 
-  --color-accent-400: #38bdf8;
-  --color-accent-500: #0ea5e9;
-  --color-accent-600: #0284c7;
+  --color-accent-400: #f000ff;
+  --color-accent-500: #d400e6;
+  --color-accent-600: #a300b3;
 
-  --color-surface-50: #f8fafc;
-  --color-surface-100: #f1f5f9;
-  --color-surface-200: #e2e8f0;
-  --color-surface-700: #1e293b;
-  --color-surface-800: #111827;
-  --color-surface-850: #0d1117;
-  --color-surface-900: #030712;
+  --color-surface-50: #fcfcfc;
+  --color-surface-100: #f0f0f0;
+  --color-surface-200: #333333;
+  --color-surface-700: #1a1a1a;
+  --color-surface-800: #0a0a0a;
+  --color-surface-850: #050505;
+  --color-surface-900: #000000;
 
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-info: #3b82f6;
+  --color-success: #00ff88;
+  --color-warning: #ffb700;
+  --color-danger: #ff003c;
+  --color-info: #00e5ff;
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -64,20 +64,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.3);
+  background: rgba(0, 229, 255, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(124, 58, 237, 0.5);
+  background: rgba(0, 229, 255, 0.5);
 }
 
 /* Glass Effect Utility */
 .glass {
-  background: rgba(17, 24, 39, 0.6);
+  background: rgba(10, 10, 10, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(0, 229, 255, 0.15);
 }
 
 .glass-light {
@@ -88,16 +88,16 @@ body {
 }
 
 .glass-strong {
-  background: rgba(17, 24, 39, 0.8);
+  background: rgba(5, 5, 5, 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(0, 229, 255, 0.25);
 }
 
 .dropdown-menu {
-  background: #0d1117;
-  border: 1px solid rgba(124, 58, 237, 0.25);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  background: #050505;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.2);
 }
 
 html.light .dropdown-menu {
@@ -108,19 +108,19 @@ html.light .dropdown-menu {
 
 /* Gradient Utilities */
 .gradient-primary {
-  background: linear-gradient(135deg, #7c3aed, #3b82f6);
+  background: linear-gradient(135deg, #00e5ff, #0077ff);
 }
 
 .gradient-accent {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+  background: linear-gradient(135deg, #f000ff, #8b5cf6, #00e5ff);
 }
 
 .gradient-glow {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(59, 130, 246, 0.15));
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(240, 0, 255, 0.15));
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+  background: linear-gradient(135deg, #00e5ff, #f000ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -139,7 +139,7 @@ html.light .dropdown-menu {
 .bg-orb-1 {
   width: 600px;
   height: 600px;
-  background: #7c3aed;
+  background: #00e5ff;
   top: -200px;
   right: -200px;
   animation: float-orb 20s ease-in-out infinite;
@@ -148,7 +148,7 @@ html.light .dropdown-menu {
 .bg-orb-2 {
   width: 500px;
   height: 500px;
-  background: #3b82f6;
+  background: #f000ff;
   bottom: -150px;
   left: -150px;
   animation: float-orb 25s ease-in-out infinite reverse;
@@ -157,7 +157,7 @@ html.light .dropdown-menu {
 .bg-orb-3 {
   width: 400px;
   height: 400px;
-  background: #8b5cf6;
+  background: #0077ff;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -190,46 +190,46 @@ html.light .dropdown-menu {
 }
 
 @keyframes pulse-glow-anim {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.4); }
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.4); }
 }
 
 /* Status badges */
 .badge-success {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(0, 255, 136, 0.15);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.3);
 }
 
 .badge-warning {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background: rgba(255, 183, 0, 0.15);
+  color: #ffb700;
+  border: 1px solid rgba(255, 183, 0, 0.3);
 }
 
 .badge-danger {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(255, 0, 60, 0.15);
+  color: #ff003c;
+  border: 1px solid rgba(255, 0, 60, 0.3);
 }
 
 .badge-info {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(0, 229, 255, 0.15);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.3);
 }
 
 .badge-primary {
-  background: rgba(124, 58, 237, 0.15);
-  color: #a78bfa;
-  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: rgba(0, 229, 255, 0.15);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.3);
 }
 
 /* Focus styles */
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: rgba(124, 58, 237, 0.5);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  border-color: rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.15);
 }
 
 /* Chart tooltip override */

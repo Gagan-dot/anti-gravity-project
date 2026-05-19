@@ -179,8 +179,6 @@ export default function Navbar() {
                   <div className="py-1">
                     {[
                       { icon: User, label: 'Profile', action: () => navigate('/settings') },
-                      { icon: SettingsIcon, label: 'Settings', action: () => navigate('/settings') },
-                      { icon: HelpCircle, label: 'Help & Support', action: () => {} },
                     ].map(({ icon: Icon, label, action }) => (
                       <button
                         key={label}
