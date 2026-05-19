@@ -121,37 +121,33 @@ export default function DashboardPage() {
         }}
       >
         {/* Animated floating icons */}
-        {floatingIcons.map((Icon, i) => {
-          const colors = ['#00e5ff', '#f000ff', '#00e5ff', '#f000ff', '#00e5ff', '#f000ff']
-          return (
-            <motion.div
-              key={i}
-              className="absolute pointer-events-none"
-              style={{
-                left: `${8 + i * 16}%`,
-                top: `${10 + (i % 3) * 28}%`,
-              }}
-              animate={{
-                y: [0, -15, 0],
-                x: [0, i % 2 === 0 ? 10 : -10, 0],
-                rotate: [0, 12, -12, 0],
-              }}
-              transition={{
-                duration: 5 + i,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: i * 0.3,
-              }}
-            >
-              <Icon 
-                size={36 + i * 6} 
-                strokeWidth={1.2} 
-                color={colors[i]}
-                style={{ opacity: 0.15 }}
-              />
-            </motion.div>
-          )
-        })}
+        {[
+          { Icon: Dumbbell, left: '5%', top: '15%', size: 40, color: '#00e5ff' },
+          { Icon: Flame, left: '20%', top: '55%', size: 34, color: '#f000ff' },
+          { Icon: Zap, left: '38%', top: '20%', size: 36, color: '#00e5ff' },
+          { Icon: Trophy, left: '55%', top: '60%', size: 38, color: '#f000ff' },
+          { Icon: Target, left: '72%', top: '25%', size: 32, color: '#00e5ff' },
+          { Icon: Activity, left: '88%', top: '50%', size: 36, color: '#f000ff' },
+        ].map(({ Icon, left, top, size, color }, i) => (
+          <motion.div
+            key={i}
+            className="absolute pointer-events-none"
+            style={{ left, top, opacity: 0.3, filter: `drop-shadow(0 0 6px ${color})` }}
+            animate={{
+              y: [0, -12, 0],
+              x: [0, i % 2 === 0 ? 8 : -8, 0],
+              rotate: [0, 15, -15, 0],
+            }}
+            transition={{
+              duration: 5 + i * 0.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.4,
+            }}
+          >
+            <Icon size={size} strokeWidth={1.5} color={color} />
+          </motion.div>
+        ))}
 
         {/* Glowing orbs inside banner */}
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-20"
