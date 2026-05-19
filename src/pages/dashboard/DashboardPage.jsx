@@ -1,9 +1,10 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Users, DollarSign, CreditCard, AlertCircle, UserPlus,
   TrendingUp, Calendar, Clock, ArrowUpRight,
-  Activity, Zap, MessageSquare, PlusCircle, Dumbbell
+  Activity, Zap, MessageSquare, PlusCircle, Dumbbell,
+  Flame, Trophy, Sun, Moon, Sunrise, Target
 } from 'lucide-react'
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -11,6 +12,19 @@ import {
 } from 'recharts'
 import StatCard from '../../components/ui/StatCard'
 import { useApp } from '../../context/AppContext'
+import { useAuth } from '../../context/AuthContext'
+
+const gymQuotes = [
+  "The only bad workout is the one that didn't happen. 💪",
+  "Your body can stand almost anything. It's your mind you have to convince. 🧠",
+  "Success starts with self-discipline. 🔥",
+  "Champions are made when nobody is watching. 🏆",
+  "Push harder than yesterday if you want a different tomorrow. ⚡",
+  "Strength doesn't come from what you can do. It comes from overcoming things you thought you couldn't. 💎",
+  "The pain you feel today will be the strength you feel tomorrow. 🚀",
+]
+
+const floatingIcons = [Dumbbell, Flame, Zap, Trophy, Target, Activity]
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -30,6 +44,23 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function DashboardPage() {
   const { customers, leads, activities, notifications, invoices, updateInvoiceStatus } = useApp()
+  const { user } = useAuth()
+
+  const [quoteIndex, setQuoteIndex] = useState(0)
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const quoteTimer = setInterval(() => {
+      setQuoteIndex(prev => (prev + 1) % gymQuotes.length)
+    }, 5000)
+    const clockTimer = setInterval(() => setCurrentTime(new Date()), 1000)
+    return () => { clearInterval(quoteTimer); clearInterval(clockTimer) }
+  }, [])
+
+  const hour = currentTime.getHours()
+  const greeting = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening'
+  const GreetingIcon = hour < 12 ? Sunrise : hour < 17 ? Sun : Moon
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Champ'
 
   const activeCustomers = customers.filter(c => c.status === 'Active' || c.status === 'active').length
   
@@ -70,23 +101,133 @@ export default function DashboardPage() {
     }
   }).filter((_, i) => i <= currentMonth)
 
+  const formattedDate = currentTime.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const formattedTime = currentTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-sm text-slate-400 mt-1">Welcome back! Here's your business overview.</p>
+      {/* Animated Welcome Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden rounded-2xl border border-white/10"
+        style={{
+          background: hour < 12
+            ? 'linear-gradient(135deg, #002e33 0%, #003d47 30%, #00e5ff10 100%)'
+            : hour < 17
+            ? 'linear-gradient(135deg, #1a0a2e 0%, #002e33 40%, #00e5ff08 100%)'
+            : 'linear-gradient(135deg, #0a0015 0%, #1a002e 40%, #f000ff08 100%)'
+        }}
+      >
+        {/* Animated floating icons */}
+        {floatingIcons.map((Icon, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-white/5"
+            initial={{ x: 50 + i * 140, y: 20 + (i % 3) * 30 }}
+            animate={{
+              y: [20 + (i % 3) * 30, -10 + (i % 3) * 30, 20 + (i % 3) * 30],
+              rotate: [0, 15, -15, 0],
+              opacity: [0.04, 0.08, 0.04],
+            }}
+            transition={{
+              duration: 4 + i * 0.7,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.4,
+            }}
+          >
+            <Icon size={28 + i * 4} />
+          </motion.div>
+        ))}
+
+        {/* Glowing orbs inside banner */}
+        <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] opacity-20"
+          style={{ background: hour < 17 ? '#00e5ff' : '#f000ff' }} />
+        <div className="absolute bottom-0 left-1/4 w-48 h-48 rounded-full blur-[80px] opacity-10"
+          style={{ background: '#f000ff' }} />
+
+        <div className="relative z-10 px-6 py-6 sm:px-8 sm:py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Left: Greeting */}
+            <div className="space-y-3">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center gap-2"
+              >
+                <motion.div
+                  animate={{ rotate: [0, 15, -15, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <GreetingIcon size={22} className="text-primary-400" />
+                </motion.div>
+                <span className="text-sm font-medium text-primary-400 uppercase tracking-wider">{greeting}</span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="text-2xl sm:text-3xl font-bold text-white"
+              >
+                Welcome back, <span className="gradient-text">{userName}</span> 👋
+              </motion.h1>
+
+              {/* Rotating motivational quote */}
+              <div className="h-7 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={quoteIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-sm text-slate-400 italic"
+                  >
+                    {gymQuotes[quoteIndex]}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Right: Date, Time & Stats */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-col items-start sm:items-end gap-2"
+            >
+              <div className="flex items-center gap-2 text-slate-400">
+                <Calendar size={14} />
+                <span className="text-xs">{formattedDate}</span>
+              </div>
+              <motion.div
+                className="font-mono text-2xl sm:text-3xl font-bold tracking-wider"
+                style={{
+                  background: 'linear-gradient(135deg, #00e5ff, #f000ff)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                {formattedTime}
+              </motion.div>
+              <div className="flex items-center gap-3 mt-1">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-xs text-slate-400">{activeCustomers} active members</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-primary-400 animate-pulse" />
+                  <span className="text-xs text-slate-400">System online</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <select className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-300 focus:border-primary-500/50">
-            <option>Last 30 days</option>
-            <option>Last 7 days</option>
-            <option>Last 90 days</option>
-            <option>This Year</option>
-          </select>
-        </div>
-      </div>
+      </motion.div>
 
 
       {/* Stats Cards */}
