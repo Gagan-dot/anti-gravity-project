@@ -239,11 +239,11 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard icon={Users} title="Total Customers" value={customers.length} change="+12%" delay={0.05} gradient="gradient-primary" />
-        <StatCard icon={DollarSign} title="Monthly Revenue" value={`₹${monthlyRevenue.toLocaleString()}`} change="Live" delay={0.1} gradient="bg-emerald-500" />
-        <StatCard icon={CreditCard} title="Active Subscriptions" value={activeCustomers} change="Live" delay={0.15} gradient="bg-blue-500" />
-        <StatCard icon={AlertCircle} title="Pending Payments" value={pendingPaymentsCount} change="Live" changeType={pendingPaymentsCount > 0 ? "negative" : "positive"} delay={0.2} gradient="bg-amber-500" />
-        <StatCard icon={UserPlus} title="New Leads" value={newLeads} change="Live" delay={0.25} gradient="bg-purple-500" />
+        <StatCard icon={Users} title="Total Customers" value={customers.length} change="+12%" delay={0.05} gradient="gradient-primary" ringPercent={Math.min(customers.length * 10, 100)} />
+        <StatCard icon={DollarSign} title="Monthly Revenue" value={`₹${monthlyRevenue.toLocaleString()}`} change="Live" delay={0.1} gradient="bg-emerald-500" ringPercent={Math.min(Math.floor((monthlyRevenue / 100000) * 100), 100)} />
+        <StatCard icon={CreditCard} title="Active Subscriptions" value={activeCustomers} change="Live" delay={0.15} gradient="bg-blue-500" ringPercent={customers.length > 0 ? Math.floor((activeCustomers / customers.length) * 100) : 0} />
+        <StatCard icon={AlertCircle} title="Pending Payments" value={pendingPaymentsCount} change="Live" changeType={pendingPaymentsCount > 0 ? "negative" : "positive"} delay={0.2} gradient="bg-amber-500" ringPercent={invoices.length > 0 ? Math.floor((pendingPaymentsCount / invoices.length) * 100) : 0} />
+        <StatCard icon={UserPlus} title="New Leads" value={newLeads} change="Live" delay={0.25} gradient="bg-purple-500" ringPercent={Math.min(newLeads * 20, 100)} />
       </div>
 
       {/* Charts Row */}
